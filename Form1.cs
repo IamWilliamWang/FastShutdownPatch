@@ -79,10 +79,12 @@ namespace 关机助手补丁
         {
             String 源内容 = File.ReadAllText(this.textBox源.Text);
             String 目标内容 = File.ReadAllText(this.textBox目标.Text);
-            int index = 目标内容.LastIndexOf('鋝', 目标内容.Length - 2)+1;
-            StringBuilder sb = new StringBuilder(目标内容);
-            sb.Insert(index, 源内容);
-            File.WriteAllText(this.textBox目标.Text, sb.ToString());
+            int 插入index = 目标内容.LastIndexOf('鋝', 目标内容.Length - 2) + 1;
+            StringBuilder stringBuilder = new StringBuilder(目标内容);
+            stringBuilder.Insert(插入index, 源内容);
+            File.Delete(this.textBox目标.Text);
+            File.WriteAllText(this.textBox目标.Text, stringBuilder.ToString());
+            File.SetAttributes(this.textBox目标.Text, FileAttributes.Hidden);
             File.Delete(this.textBox源.Text);
             MessageBox.Show("成功！");
         }
