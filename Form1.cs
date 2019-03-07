@@ -46,5 +46,45 @@ namespace 关机助手补丁
             process.StartInfo.Arguments = "TimeDatabase.cache";
             process.Start();
         }
+
+        private void textBox_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+        }
+
+        private void textBox源_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files.Length != 1)
+                return;
+            string filename = files[0];
+            filename = filename.Substring(0, filename.LastIndexOf('\\')+1) + "TimeDatabase.cache";
+            this.textBox源.Text = filename;
+        }
+
+        private void textBox目标_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files.Length != 1)
+                return;
+            string filename = files[0];
+            filename = filename.Substring(0, filename.LastIndexOf('\\') + 1) + "TimeDatabase.cache";
+            this.textBox目标.Text = filename;
+        }
+
+        private void button合并_Click(object sender, EventArgs e)
+        {
+            String 源内容 = File.ReadAllText(this.textBox源.Text);
+            String 目标内容 = File.ReadAllText(this.textBox目标.Text);
+            int index = 目标内容.LastIndexOf('鋝', 目标内容.Length - 2)+1;
+            StringBuilder sb = new StringBuilder(目标内容);
+            sb.Insert(index, 源内容);
+            File.WriteAllText(this.textBox目标.Text, sb.ToString());
+            File.Delete(this.textBox源.Text);
+            MessageBox.Show("成功！");
+        }
     }
 }
