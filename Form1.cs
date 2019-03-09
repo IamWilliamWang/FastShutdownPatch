@@ -102,8 +102,8 @@ namespace 关机助手补丁
 
         private void 删除文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //if (MessageBox.Show("删除文件操作不可恢复，是否继续？", "删除警告", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
-            //    return;
+            if (MessageBox.Show("删除文件操作不可恢复，是否继续？", "删除警告", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
+                return;
             File.Delete(cache);
             MessageBox.Show("已删除缓存文件！");
         }
@@ -115,14 +115,18 @@ namespace 关机助手补丁
                 MessageBox.Show("不存在缓存文件，另存为失败");
                 return;
             }
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.DefaultExt = ".cache";
-            fileDialog.FileName = cache;
-            fileDialog.Filter = "缓存文件|"+cache;
-            fileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            fileDialog.Title = "另存为";
-            fileDialog.CheckFileExists = false;
+            SaveFileDialog fileDialog = new SaveFileDialog
+            {
+                DefaultExt = ".cache",
+                FileName = cache,
+                Filter = "缓存文件|" + cache,
+                InitialDirectory = Directory.GetCurrentDirectory(),
+                Title = "另存为",
+                CheckFileExists = false
+            };
             fileDialog.ShowDialog();
+            if (fileDialog.FileName == cache)
+                return;
             using (StreamWriter writer = new StreamWriter(fileDialog.FileName, false))
                 using (StreamReader reader = new StreamReader(cache))
                     writer.Write(reader.ReadToEnd());
@@ -137,14 +141,18 @@ namespace 关机助手补丁
                 MessageBox.Show("不存在缓存文件，移动文件失败");
                 return;
             }
-            SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.DefaultExt = ".cache";
-            fileDialog.FileName = cache;
-            fileDialog.Filter = "缓存文件|TimeDatabase.cache";
-            fileDialog.InitialDirectory = Directory.GetCurrentDirectory();
-            fileDialog.Title = "移动文件";
-            fileDialog.CheckFileExists = false;
+            SaveFileDialog fileDialog = new SaveFileDialog
+            {
+                DefaultExt = ".cache",
+                FileName = cache,
+                Filter = "缓存文件|TimeDatabase.cache",
+                InitialDirectory = Directory.GetCurrentDirectory(),
+                Title = "移动文件",
+                CheckFileExists = false
+            };
             fileDialog.ShowDialog();
+            if (fileDialog.FileName == cache)
+                return;
             File.Delete(fileDialog.FileName);
             File.Move(cache, fileDialog.FileName);
         }
