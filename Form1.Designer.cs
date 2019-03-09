@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button开机 = new System.Windows.Forms.Button();
             this.button关机 = new System.Windows.Forms.Button();
             this.label源 = new System.Windows.Forms.Label();
@@ -35,6 +36,11 @@
             this.textBox源 = new System.Windows.Forms.TextBox();
             this.textBox目标 = new System.Windows.Forms.TextBox();
             this.button合并 = new System.Windows.Forms.Button();
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.删除文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.另存为ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.移动文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // button开机
@@ -107,11 +113,42 @@
             this.button合并.UseVisualStyleBackColor = true;
             this.button合并.Click += new System.EventHandler(this.button合并_Click);
             // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.删除文件ToolStripMenuItem,
+            this.另存为ToolStripMenuItem,
+            this.移动文件ToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(125, 70);
+            // 
+            // 删除文件ToolStripMenuItem
+            // 
+            this.删除文件ToolStripMenuItem.Name = "删除文件ToolStripMenuItem";
+            this.删除文件ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.删除文件ToolStripMenuItem.Text = "删除文件";
+            this.删除文件ToolStripMenuItem.Click += new System.EventHandler(this.删除文件ToolStripMenuItem_Click);
+            // 
+            // 另存为ToolStripMenuItem
+            // 
+            this.另存为ToolStripMenuItem.Name = "另存为ToolStripMenuItem";
+            this.另存为ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.另存为ToolStripMenuItem.Text = "另存为";
+            this.另存为ToolStripMenuItem.Click += new System.EventHandler(this.另存为ToolStripMenuItem_Click);
+            // 
+            // 移动文件ToolStripMenuItem
+            // 
+            this.移动文件ToolStripMenuItem.Name = "移动文件ToolStripMenuItem";
+            this.移动文件ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
+            this.移动文件ToolStripMenuItem.Text = "移动文件";
+            this.移动文件ToolStripMenuItem.Click += new System.EventHandler(this.移动文件ToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(420, 163);
+            this.ClientSize = new System.Drawing.Size(420, 104);
+            this.ContextMenuStrip = this.contextMenuStrip;
             this.Controls.Add(this.button合并);
             this.Controls.Add(this.textBox目标);
             this.Controls.Add(this.textBox源);
@@ -121,9 +158,11 @@
             this.Controls.Add(this.button开机);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MouseWheel += this.FormMouseWheel;
             this.Name = "Form1";
             this.Text = "关机助手补丁程序";
             this.DoubleClick += new System.EventHandler(this.Form1_DoubleClick);
+            this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -138,6 +177,10 @@
         private System.Windows.Forms.TextBox textBox源;
         private System.Windows.Forms.TextBox textBox目标;
         private System.Windows.Forms.Button button合并;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem 删除文件ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 另存为ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 移动文件ToolStripMenuItem;
     }
 }
 
