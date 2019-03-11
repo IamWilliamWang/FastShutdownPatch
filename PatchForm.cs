@@ -12,10 +12,10 @@ using System.Windows.Forms;
 
 namespace 关机助手补丁
 {
-    public partial class Form1 : Form
+    public partial class PatchForm : Form
     {
         private readonly String cache = "TimeDatabase.cache";
-        public Form1()
+        public PatchForm()
         {
             InitializeComponent();
         }
