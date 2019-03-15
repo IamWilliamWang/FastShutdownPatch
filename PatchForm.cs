@@ -83,12 +83,17 @@ namespace 关机助手补丁
             try
             {
                 源内容 = File.ReadAllText(this.textBox源.Text);
-                目标内容 = File.ReadAllText(this.textBox目标.Text);
             }
             catch
             {
-                MessageBox.Show("文件名有误，无法进行合并");
-                return;
+                if (File.Exists(this.textBox目标.Text) == false
+                    && File.Exists(this.textBox源.Text))
+                    目标内容 = "";
+                else
+                {
+                    MessageBox.Show("源文件名有误，无法进行合并");
+                    return;
+                }
             }
             int 插入index = 目标内容.LastIndexOf('鋝', 目标内容.Length - 2) + 1;
             StringBuilder stringBuilder = new StringBuilder(目标内容);
