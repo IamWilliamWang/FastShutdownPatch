@@ -23,13 +23,15 @@ namespace 关机助手补丁
 
         private void button开机_Click(object sender, EventArgs e)
         {
-            CacheUtil.AppendCache("INSERT INTO [Table](开机时间) VALUES (GETDATE())");
+            CacheUtil.AppendCache("INSERT INTO [Table](开机时间) VALUES (GETDATE())"
+                .Replace("GETDATE()", "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "'"), false);
             Application.Exit();
         }
 
         private void button关机_Click(object sender, EventArgs e)
         {
-            CacheUtil.AppendCache("UPDATE [Table] SET 关机时间 = GETDATE(), 时长 = GETDATE() - 开机时间 WHERE 序号 in (SELECT MAX(序号) FROM[Table]) ");
+            CacheUtil.AppendCache("UPDATE [Table] SET 关机时间 = GETDATE(), 时长 = GETDATE() - 开机时间 WHERE 序号 in (SELECT MAX(序号) FROM[Table]) "
+                .Replace("GETDATE()", "'" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff") + "'"), false);
             Application.Exit();
         }
 
