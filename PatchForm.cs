@@ -15,10 +15,32 @@ namespace 关机助手补丁
 {
     public partial class PatchForm : Form
     {
-        private String cache { get { return CacheUtil.CacheFilename; } }
+        private String Cache { get { return CacheUtil.CacheFilename; } }
         public PatchForm()
         {
             InitializeComponent();
+        }
+
+        private void PatchForm_Load(object sender, EventArgs e)
+        {
+            if (!File.Exists(Cache))
+            {
+                this.Text += " (无缓存)";
+                return;
+            }
+            string[] lines = CacheUtil.GetAllLines(Cache);
+            if (lines.Length == 0)
+            {
+                this.Text += " (空缓存)";
+                return;
+            }
+            string lastLine = lines[lines.Length - 1];
+            if (lastLine.StartsWith("INSERT", true, System.Globalization.CultureInfo.CurrentCulture))
+                this.Text += " (需关机)";
+            else if (lastLine.StartsWith("UPDATE", true, System.Globalization.CultureInfo.CurrentCulture))
+                this.Text += " (需开机)";
+            else
+                MessageBox.Show("请手动检查缓存文件格式", "读取格式异常！", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void button开机_Click(object sender, EventArgs e)
@@ -37,9 +59,14 @@ namespace 关机助手补丁
 
         private void Form1_DoubleClick(object sender, EventArgs e)
         {
+            if (!File.Exists(Cache))
+            {
+                MessageBox.Show("缓存文件不存在！", "无法打开缓存", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             Process process = new Process();
             process.StartInfo.FileName = "notepad.exe";
-            process.StartInfo.Arguments = cache;
+            process.StartInfo.Arguments = Cache;
             process.Start();
             process.WaitForExit();
         }
@@ -58,7 +85,7 @@ namespace 关机助手补丁
             if (files.Length != 1)
                 return;
             string dragFilename = files[0];
-            dragFilename = dragFilename.Substring(0, dragFilename.LastIndexOf('\\') + 1) + cache;
+            dragFilename = dragFilename.Substring(0, dragFilename.LastIndexOf('\\') + 1) + Cache;
             this.textBox源.Text = dragFilename;
         }
 
@@ -68,7 +95,7 @@ namespace 关机助手补丁
             if (files.Length != 1)
                 return;
             string dragFilename = files[0];
-            dragFilename = dragFilename.Substring(0, dragFilename.LastIndexOf('\\') + 1) + cache;
+            dragFilename = dragFilename.Substring(0, dragFilename.LastIndexOf('\\') + 1) + Cache;
             this.textBox目标.Text = dragFilename;
         }
 
@@ -107,13 +134,13 @@ namespace 关机助手补丁
         {
             if (MessageBox.Show("删除文件操作不可恢复，是否继续？", "删除警告", MessageBoxButtons.OKCancel) == DialogResult.Cancel)
                 return;
-            File.Delete(cache);
+            File.Delete(Cache);
             MessageBox.Show("已删除缓存文件！");
         }
 
         private void 另存为ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (File.Exists(cache) == false)
+            if (File.Exists(Cache) == false)
             {
                 MessageBox.Show("不存在缓存文件，另存为失败");
                 return;
@@ -121,23 +148,23 @@ namespace 关机助手补丁
             SaveFileDialog fileDialog = new SaveFileDialog
             {
                 DefaultExt = ".cache",
-                FileName = cache,
-                Filter = "缓存文件|" + cache,
+                FileName = Cache,
+                Filter = "缓存文件|" + Cache,
                 InitialDirectory = Directory.GetCurrentDirectory(),
                 Title = "另存为",
                 CheckFileExists = false
             };
             fileDialog.ShowDialog();
-            if (fileDialog.FileName == cache)
+            if (fileDialog.FileName == Cache)
                 return;
             using (StreamWriter writer = new StreamWriter(fileDialog.FileName, false))
-                using (StreamReader reader = new StreamReader(cache))
+                using (StreamReader reader = new StreamReader(Cache))
                     writer.Write(reader.ReadToEnd());
         }
 
         private void 移动文件ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (File.Exists(cache) == false)
+            if (File.Exists(Cache) == false)
             {
                 MessageBox.Show("不存在缓存文件，移动文件失败");
                 return;
@@ -145,17 +172,17 @@ namespace 关机助手补丁
             SaveFileDialog fileDialog = new SaveFileDialog
             {
                 DefaultExt = ".cache",
-                FileName = cache,
+                FileName = Cache,
                 Filter = "缓存文件|TimeDatabase.cache",
                 InitialDirectory = Directory.GetCurrentDirectory(),
                 Title = "移动文件",
                 CheckFileExists = false
             };
             fileDialog.ShowDialog();
-            if (fileDialog.FileName == cache)
+            if (fileDialog.FileName == Cache)
                 return;
             File.Delete(fileDialog.FileName);
-            File.Move(cache, fileDialog.FileName);
+            File.Move(Cache, fileDialog.FileName);
         }
 
         private void FormMouseWheel(object sender, MouseEventArgs e)

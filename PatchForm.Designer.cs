@@ -143,7 +143,7 @@
             this.移动文件ToolStripMenuItem.Text = "移动文件";
             this.移动文件ToolStripMenuItem.Click += new System.EventHandler(this.移动文件ToolStripMenuItem_Click);
             // 
-            // Form1
+            // PatchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -158,9 +158,9 @@
             this.Controls.Add(this.button开机);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.MouseWheel += this.FormMouseWheel;
-            this.Name = "Form1";
+            this.Name = "PatchForm";
             this.Text = "关机助手补丁程序";
+            this.Load += new System.EventHandler(this.PatchForm_Load);
             this.DoubleClick += new System.EventHandler(this.Form1_DoubleClick);
             this.contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
