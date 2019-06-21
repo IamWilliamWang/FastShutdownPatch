@@ -53,6 +53,7 @@
             this.button开机.Text = "开机";
             this.button开机.UseVisualStyleBackColor = true;
             this.button开机.Click += new System.EventHandler(this.button开机_Click);
+            this.button开机.MouseEnter += new System.EventHandler(this.button开关机_MouseEnter);
             // 
             // button关机
             // 
@@ -64,6 +65,7 @@
             this.button关机.Text = "关机";
             this.button关机.UseVisualStyleBackColor = true;
             this.button关机.Click += new System.EventHandler(this.button关机_Click);
+            this.button关机.MouseEnter += new System.EventHandler(this.button开关机_MouseEnter);
             // 
             // label源
             // 
